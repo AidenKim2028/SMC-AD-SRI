@@ -14,3 +14,7 @@ Study goal: Effect of Lecanemab on Alzheimer Patients' Sleep Regularity.
 ## RBDtector
 - An open-source software designed to detect REM Sleep Without Atonia (RSWA)— a key diagnostic marker of REM Sleep Behavior Disorder (RBD).   
 - A Python-based tool that analyzes raw polysomnography (PSG) data, especially electromyography (EMG) channels, to automatically identify muscle activity during REM sleep. It's built around the established SINBAR visual scoring criteria, covering tonic, phasic, and any EMG activity types. 
+
+## Polysomnography (PSG) 
+
+## Baseline Demographics, Neuropsychological Data
