@@ -67,7 +67,7 @@ Combine depth, duration, and prevalence into a single scalar:
 
 ---
 
-**Usage example in code** can be found in [`WHI.py`](./WHI.py) and [`Calculate_weighted_hypoxemia_.ipynb`](./Calculate_weighted_hypoxemia.ipynb)
+**Usage example in code** can be found in [`WHI.py`](./Weighted%20hypoxemia%20index/WHI.py) and [`Calculate_weighted_hypoxemia.ipynb`](./Weighted%20hypoxemia%20index/Calculate_weighted_hypoxemia.ipynb)
 
 ## RBDtector
 - An open-source software designed to detect REM Sleep Without Atonia (RSWA)— a key diagnostic marker of REM Sleep Behavior Disorder (RBD).   
