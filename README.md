@@ -43,8 +43,8 @@ For each retained event:
 
 ### 4. Compute Normalization Factor (Ω)  
 Scale by the fraction of time spent below the upper threshold:  
-- **TST₍upper₎** = total seconds where SpO₂ < upper threshold  
-- **TST₍total₎** = total recording duration in seconds  
+- **TST_upper** = total seconds where SpO₂ < upper threshold  
+- **TST_total** = total recording duration in seconds  
 
 \[
 Ω = `TST_upper / TST_total`
