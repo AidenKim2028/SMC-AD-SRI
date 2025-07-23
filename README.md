@@ -9,7 +9,7 @@ Study goal: Effect of Lecanemab on Alzheimer Patients' Sleep Regularity.
 ## Sleep Regularity Index (SRI) 
 - The probability of an individual being in the same state (asleep or awake) at any two time points 24 h apart
 
-# Weighted Hypoxemia Index (WHI)
+## Weighted Hypoxemia Index (WHI)
 
 Following description is a five‐step procedure used to compute the **Weighted Hypoxemia Index (WHI)** from a continuous SpO₂ recording.
 
@@ -47,7 +47,7 @@ Scale by the fraction of time spent below the upper threshold:
 - **TST₍total₎** = total recording duration in seconds  
 
 \[
-\Omega = `TST_upper / TST_total`
+Ω = `TST_upper / TST_total`
 \]
 
 ---
