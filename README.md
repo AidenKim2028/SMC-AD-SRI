@@ -47,10 +47,9 @@ Scale by overall desaturation prevalence:
 - **TST<upper>** = total seconds where SpO₂ < upper threshold  
 - **TST_total** = total recording length in seconds  
 -  
-  \[
-    \Omega = \frac{\text{TST<upper>}}{\text{TST_total}}
-  \]
-
+\[
+\Omega = \frac{\mathrm{TST}_{(\mathrm{upper})}}{\mathrm{TST}_{(\mathrm{total})}}
+\]
 ---
 
 ### 5. Aggregate into WHI  
