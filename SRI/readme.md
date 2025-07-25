@@ -1,6 +1,7 @@
 # SRI python
 
-Calculates SRI, sleep median time, average hourly sleep time from given actigraphy csv (exported from Philips Actiwatch software), per article by AJK Philips et al. ()
+Calculates SRI, sleep median time, average hourly sleep time from given actigraphy csv (exported from Philips Actiwatch software), per article by AJK Philips et al. (https://doi.org/10.1038/s41598-017-03171-4)
+
 This has an option for visualizing the actigraphy data for CNN analysis.
 
 # Feature Analysis 
