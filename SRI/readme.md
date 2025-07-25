@@ -23,7 +23,7 @@ patient_data.py --- validates the data (>5 days, >22 hours per day), calculates 
 - Whereas $\delta(s_{i,j},s_{i+1,j}) = 1$ if $s_{i,j}=s_{i+1,j}$ and 0 otherwise.
 
 ## Sleep median time
-- Calculated from epochs counted as sleep time, per article by Lunsford-Avery et al.
+- Calculated from epochs counted as sleep time, per article by Lunsford-Avery et al. (https://doi.org/10.1038/s41598-018-32402-5)
 - A mean of circular quantities, t = time of day in seconds at epoch j
 
 ```math
