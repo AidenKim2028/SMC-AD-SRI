@@ -17,7 +17,7 @@ patient_data.py --- validates the data (>5 days, >22 hours per day), calculates 
 
 ## Sleep median time
 - Calculated from epochs counted as sleep time, per article by Lunsford-Avery et al.
-- `{1440}/{2*pi} arctan2(sigma^{M}_{j=1} sigma^{N}_{i=1}{s_{i, j} {sin {2*pi}_{1440} + sigma^{M}_{j=1} sigma^{N}_{i=1}{s_{i, j} {cos {2*pi}_{1440}`
+- $\{1440}/{2*pi} arctan2(sigma^{M}_{j=1} sigma^{N}_{i=1}{s_{i, j}} {sin {2*pi}_{1440}} + sigma^{M}_{j=1} sigma^{N}_{i=1}{s_{i, j}} {cos {2*pi}_{1440}}$
 
 ## Average hourly sleep time
 - Hourly sleep time counted daily then averaged 
