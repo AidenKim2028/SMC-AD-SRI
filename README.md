@@ -12,8 +12,9 @@ This repository provides Python scripts for calculating:
 - **Hypopnea-specific hypoxic burden** (%·min/h)
 - **Total hypoxic burden** (%·min/h)
 - **Weighted Hypoxemia Index (WHI)** (%·min²/hour)
+  
+The calucaltions are based on spO2 time-series data and respiratory event from polysomnography(PSG). 
 
-**The calculations are based on **SpO₂ time-series data** and **respiratory event annotations** from polysomnography (PSG).**
 ---
 
 ## Overview
