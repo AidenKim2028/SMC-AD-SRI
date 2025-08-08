@@ -49,30 +49,52 @@ class WeightedHypoxemiaIndex:
             if np.all(segment >= self.lower): 
                 self.filtered.append((i0, i1))
 
-    def step3_calc_area_and_weight(self): # For each filtered event compute Δᵢ (area under upper_thr) and Φᵢ (event duration)
+    def step3_calc_area_and_weight(self):
+        # Compute Δᵢ (area under upper_thr) and Φᵢ (event duration) in minutes
+        self.delta, self.phi = [], []
         for (i0, i1) in self.filtered:
             s = self.spo2[i0:i1]
             t = self.time[i0:i1]
-            drops = np.clip(self.upper - s, 0, None) # area below upper threshold (Δᵢ) via trapezoid
-            delta_i = np.trapz(drops, t)
-            phi_i = t[-1] - t[0] # linear weighted factor 
+
+            # Use fractional drop and minutes
+            drops_frac = np.clip((self.upper - s) / 100.0, 0, None)
+            t_min = t / 60.0
+
+            delta_i = np.trapz(drops_frac, t_min)  
+            phi_i   = t_min[-1] - t_min[0]         
+
             self.delta.append(delta_i)
             self.phi.append(phi_i)
 
-    def step4_calc_normalization(self): #Ω = TST90c / TSTc
-        TSTc = self.time[-1] - self.time[0]
-        below = self.spo2 < self.upper
-        TST90c = below.sum() # TST90c = total seconds spent below upper threshold
-        if TSTc > 0: 
-            self.omega = TST90c / TSTc
-        else: 
-            self.omega = 0; 
+    def step4_calc_normalization(self):
+        # Ω = (time below upper) / (total time), both measured over the timeline
+        t = self.time
+        if t.size == 0:
+            self.omega = 0.0
+            self._tst_hours = 0.0
+            return
+
+        TST_sec = float(t[-1] - t[0])
+        if TST_sec <= 0:
+            self.omega = 0.0
+            self._tst_hours = 0.0
+            return
+
+        below = (self.spo2 < self.upper).astype(float)
+        TST90_sec = float(np.trapz(below, t))
+
+        self.omega = TST90_sec / TST_sec          
+        self._tst_hours = TST_sec / 3600.0      
 
     def step5_compute_whi(self) -> float:
+        # Sum over events: (fraction·min) * (min) = fraction·min^2
         weighted_sum = sum(d * p for d, p in zip(self.delta, self.phi))
-        return self.omega * weighted_sum
+        if self._tst_hours <= 0:
+            return 0.0
+        # Convert fraction → % and report per hour
+        return 100.0 * self.omega * (weighted_sum / self._tst_hours)  # %·min²/hour   
 
-    def weighted_hypoxemia(self) -> float:  # Run all five steps and return WHI
+    def weighted_hypoxemia(self) -> float:  
         self.filter_data()
         self.step1_define_events()
         self.step2_exclude_artifacts()
