@@ -20,20 +20,6 @@ The calculations are based on **SpO₂ time-series data** and **respiratory even
 
 - **Hypoxic Burden** measures the total depth × duration of all desaturation events across the night, normalized per hour of sleep.
 - **Weighted Hypoxemia Index (WHI)** goes further by weighting each event's area (Δᵢ) by its duration (Φᵢ), and scaling by the fraction of the night spent below a specified saturation threshold (Ω).
-
-**Formula:**
-\[
-\mathrm{WHI} = \Omega \times \frac{\sum_{i} \left( \Delta_i \times \Phi_i \right)}{\mathrm{TST\ (hours)}}
-\]
-
-Where:
-- **Δᵢ**: Area under the desaturation curve for event *i* (fractional drop × minutes)
-- **Φᵢ**: Duration of event *i* (minutes)
-- **Ω**: Fraction of total sleep time spent below `upper_thr` (unitless)
-- **TST**: Total sleep time in hours
-
-**WHI Units:** `%·min²/hour`
-
 ---
 
 ## Repository Structure
@@ -54,20 +40,31 @@ Where:
 
 ### `WHI.py`
 - **`WeightedHypoxemiaIndex` class:**
-  - Filters raw SpO₂ data.
-  - Detects desaturation events (`step1_define_events`) with:
-    - Merging of short recoveries (`gap_merge_sec`)
-    - Ignoring brief dips (`min_event_dur_sec`)
-    - Splitting very long events (`max_event_dur_sec`)
-  - Excludes artifacts below `lower_thr`.
-  - Calculates:
-    - **Δᵢ** in fractional minutes
-    - **Φᵢ** in minutes
-  - Computes Ω as fraction of the night < `upper_thr`.
-  - Outputs WHI in `%·min²/hour`.
+1. **`filter_data()`**  
+   - Removes invalid SpO₂ values (`NaN` or ≤0).
+   - Rebases time to start at 0 seconds.
 
-- **`PSG` class (inherits from hypoxic_burden.PSG):**
-  - Adds `calculate_whi()` method for convenience.
+2. **`step1_define_events()`**  
+   - Detects desaturation events by finding periods where SpO₂ falls below `upper_thr` and ends when SpO₂ recovers to ≥ `upper_thr`.
+
+3. **`step2_exclude_artifacts()`**  
+   - Removes any detected events where SpO₂ drops below the `lower_thr` (assumed artifacts).
+
+4. **`step3_calc_area_and_weight()`**  
+   - For each event:
+     - Computes **Δᵢ** as the integrated fractional drop below `upper_thr` (minutes × fraction).
+     - Computes **Φᵢ** as the event duration in minutes.
+
+5. **`step4_calc_normalization()`**  
+   - Calculates Ω as:
+     \[
+     \Omega = \frac{\text{time below upper_thr}}{\text{total time}}
+     \]
+   - Stores total sleep time in hours for normalization.
+
+6. **`step5_compute_whi()`**  
+   - Sums Δᵢ × Φᵢ over events.
+   - Multiplies by Ω, converts fraction → %, and normalizes per hour of sleep.
 
 ---
 
