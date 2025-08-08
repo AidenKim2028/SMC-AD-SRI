@@ -13,7 +13,7 @@ This repository provides Python scripts for calculating:
 - **Total hypoxic burden** (%·min/h)
 - **Weighted Hypoxemia Index (WHI)** (%·min²/hour)
 
-The calculations are based on **SpO₂ time-series data** and **respiratory event annotations** from polysomnography (PSG).
+**The calculations are based on **SpO₂ time-series data** and **respiratory event annotations** from polysomnography (PSG).**
 ---
 
 ## Overview
