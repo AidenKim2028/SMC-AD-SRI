@@ -90,12 +90,28 @@ class PSG(object):
         self.SpO2 = SpO2.set_index('Time')
 
     def get_Events(self): #Events 불러오기
+
+        def parse_time_to_str(x):
+            try:
+                datetime.strptime(x, '%H:%M:%S')
+                return x
+            except:
+                # '%Y-%m-%dT%H:%M:%S.%f' 타입 대응
+                dt_temp = datetime.strptime(x, '%Y-%m-%dT%H:%M:%S.%f')
+                return dt_temp.strftime('%H:%M:%S')
+        
         try:
-            Events = pd.read_csv(self.Events_path, sep = '\t', header = 20, encoding = 'CP949').rename(columns = {'Time [hh:mm:ss]': 'Time', 'Duration[s]': 'Duration'})
-            Events['temp_Time'] = Events.Time.apply(lambda x: datetime.strptime(x, '%H:%M:%S'))
+            Events = pd.read_csv(self.Events_path, sep = '\t', header = 20, encoding = 'CP949')
         except:
-            Events = pd.read_csv(self.Events_path, sep = '\t', header = 17, encoding = 'CP949').rename(columns = {'Time [hh:mm:ss]': 'Time', 'Duration[s]': 'Duration'})
-            Events['temp_Time'] = Events.Time.apply(lambda x: datetime.strptime(x, '%H:%M:%S'))
+            Events = pd.read_csv(self.Events_path, sep = '\t', header = 17, encoding = 'CP949')
+
+        Events = Events.rename(columns={
+            'Time [hh:mm:ss]': 'Time',
+            'Duration[s]': 'Duration'
+        })
+
+        Events['Time'] = Events['Time'].apply(parse_time_to_str)
+        Events['temp_Time'] = Events.Time.apply(lambda x: datetime.strptime(x, '%H:%M:%S'))
 
         Events = Events.loc[Events.Event.apply(lambda x: 'pnea' in x.lower())]
         
